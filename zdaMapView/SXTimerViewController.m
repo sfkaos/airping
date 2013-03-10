@@ -40,6 +40,9 @@
     // Do any additional setup after loading the view from its nib.
     
     startA = TRUE;
+    startETACounter = TRUE;
+    etaCounter = 60*60;
+    
     [self startTimer];
     
     self.pagingController = [[ATPagingViewController alloc] initWithNibName:@"ATPagingViewController" bundle:nil];
@@ -53,14 +56,14 @@
     
     [self addChildViewController:self.pagingController];
     CGRect pagingFrame = self.pagingController.view.frame;
-    pagingFrame.origin.y = self.view.frame.size.height - 150.0f;
+    pagingFrame.origin.y = self.view.frame.size.height - 205.0f;
     [self.pagingController.view setFrame:pagingFrame];
     [self.view addSubview:self.pagingController.view];
     
     
     [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(getData) userInfo:nil repeats:YES];
     
-    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateETATimer) userInfo:nil repeats:YES];
+
     
     
 }
@@ -106,7 +109,7 @@
 }
 
 - (void)updateTimer{ //Happens every time updateTimer is called. Should occur every second.
-    
+    [self updateETATimer];
 //    departureCounter -= 1;
     
     CGFloat hours = floor(departureCounter/3600.0f);
@@ -136,30 +139,29 @@
 }
 
 - (void)updateETATimer{ //Happens every time updateTimer is called. Should occur every second.
+    etaCounter -= 1;
     
-    //    departureCounter -= 1;
-    NSLog(@"updateing ETA timer");
-//    CGFloat hours = floor(departureCounter/3600.0f);
-//    CGFloat totalminutes = floor(departureCounter/60.0f);
-//    CGFloat minutes = (int)floor(departureCounter/60.0f) % 60;
-//    CGFloat mseconds = round(departureCounter - (totalminutes * 60));
-//    
-//    
-//    if (hours > 0) {
-//        self.secondsA.text = [NSString stringWithFormat:@"%02d:%02d:%02d", (int)hours, (int)minutes, (int)mseconds];
-//    } else {
-//        self.secondsA.text = [NSString stringWithFormat:@"%02d:%02d", (int)minutes, (int)mseconds];
-//    }
-//    
-//    
-//    if (departureCounter < 0) // Once timer goes below 0, reset all variables.
-//    {
-//        self.secondsA.text = @"00:00";
-//        [departureTimer invalidate];
+    CGFloat hours = floor(etaCounter/3600.0f);
+    CGFloat totalminutes = floor(etaCounter/60.0f);
+    CGFloat minutes = (int)floor(etaCounter/60.0f) % 60;
+    CGFloat mseconds = round(etaCounter - (totalminutes * 60));
+    
+    
+    if (hours > 0) {
+        self.etaTimer.text = [NSString stringWithFormat:@"%02d:%02d:%02d", (int)hours, (int)minutes, (int)mseconds];
+    } else {
+        self.etaTimer.text = [NSString stringWithFormat:@"%02d:%02d", (int)minutes, (int)mseconds];
+    }
+    
+    
+    if (etaCounter < 0) // Once timer goes below 0, reset all variables.
+    {
+        self.etaTimer.text = @"00:00";
+        //        [departureTimer invalidate];
 //        startA = TRUE;
-//        departureCounter = 10;
-//        
-//    }
+        //        departureCounter = 10;
+        
+    }
     
 }
 
@@ -171,13 +173,17 @@
 //        self.secondsA.text = @"10";
         startA = FALSE;
         departureTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateTimer) userInfo:nil repeats:YES];
+//        etaTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateETATimer) userInfo:nil repeats:YES];
     }
 }
 
 - (void)updateAlert
 {
-    if (self.etaTimer.text ) {
-        
+    NSLog(@"departureCounter %d", departureCounter);
+    if (departureCounter <= (15 * 60)) {
+        [self.etaAlertView setBackgroundColor:[UIColor colorWithRed:218.0f/255.0f green:61.0f/255.0f blue:38.0f/255.0f alpha:1.0f]];
+    } else {
+        [self.etaAlertView setBackgroundColor:[UIColor colorWithRed:114.0f/255.0f green:193.0f/255.0f blue:176.0f/255.0f alpha:1.0f]];
     }
     
 }

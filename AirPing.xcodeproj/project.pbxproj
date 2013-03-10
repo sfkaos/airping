@@ -40,6 +40,7 @@
 		1AA4FFBB13FA6999004BD1D2 /* RequestLocationShotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA4FFBA13FA6999004BD1D2 /* RequestLocationShotViewController.m */; };
 		1AA4FFD213FAB2A5004BD1D2 /* MessageCountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA4FFD113FAB2A5004BD1D2 /* MessageCountViewController.m */; };
 		1AAE91FC13FD381E00B1A8A6 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1AAE91FB13FD381E00B1A8A6 /* README.txt */; };
+		2332A7FA16ED304C00DC749C /* QR.png in Resources */ = {isa = PBXBuildFile; fileRef = 2332A7F916ED304C00DC749C /* QR.png */; };
 		23D2EDC516ED1BB200CA9E7C /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 23D2EDC316ED1BB200CA9E7C /* settings.png */; };
 		23D2EDC616ED1BB200CA9E7C /* location_marker.png in Resources */ = {isa = PBXBuildFile; fileRef = 23D2EDC416ED1BB200CA9E7C /* location_marker.png */; };
 		23F70AE116EC527600AD1BAB /* zda.Framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23F70AE016EC527600AD1BAB /* zda.Framework */; };
@@ -125,6 +126,7 @@
 		1AA4FFD013FAB2A5004BD1D2 /* MessageCountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageCountViewController.h; sourceTree = "<group>"; };
 		1AA4FFD113FAB2A5004BD1D2 /* MessageCountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageCountViewController.m; sourceTree = "<group>"; };
 		1AAE91FB13FD381E00B1A8A6 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = SOURCE_ROOT; };
+		2332A7F916ED304C00DC749C /* QR.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = QR.png; sourceTree = "<group>"; };
 		23D2EDC316ED1BB200CA9E7C /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
 		23D2EDC416ED1BB200CA9E7C /* location_marker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_marker.png; sourceTree = "<group>"; };
 		23F70AE016EC527600AD1BAB /* zda.Framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = zda.Framework; path = ../../bin/zda.Framework; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 		1A3C6E8E13EC17FB00E7DE7E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2332A7F916ED304C00DC749C /* QR.png */,
 				23D2EDC316ED1BB200CA9E7C /* settings.png */,
 				23D2EDC416ED1BB200CA9E7C /* location_marker.png */,
 				1AA4FFA913FA5861004BD1D2 /* icon.png */,
@@ -327,6 +330,7 @@
 			children = (
 				23F70AE916ECE36500AD1BAB /* ATPagingViewController.h */,
 				23F70AEA16ECE36600AD1BAB /* ATPagingViewController.m */,
+				23F70AEC16ECE40300AD1BAB /* ATPagingViewController.xib */,
 				1AA4FFB613FA5EFF004BD1D2 /* FunctionsTableViewController.h */,
 				1AA4FFB713FA5EFF004BD1D2 /* FunctionsTableViewController.m */,
 				1AA4FFB313FA5CFE004BD1D2 /* FunctionsViewController.h */,
@@ -340,7 +344,6 @@
 				23F70AE216EC58C200AD1BAB /* SXTimerViewController.h */,
 				23F70AE316EC58C200AD1BAB /* SXTimerViewController.m */,
 				23F70AE416EC58C200AD1BAB /* SXTimerViewController.xib */,
-				23F70AEC16ECE40300AD1BAB /* ATPagingViewController.xib */,
 				23F70AEE16ECE4F800AD1BAB /* ATGateViewController.h */,
 				23F70AEF16ECE4F800AD1BAB /* ATGateViewController.m */,
 				23F70AF016ECE4F800AD1BAB /* ATGateViewController.xib */,
@@ -471,6 +474,7 @@
 				23D2EDC616ED1BB200CA9E7C /* location_marker.png in Resources */,
 				9D6FB5FE16ED2352004C1487 /* icon-58.png in Resources */,
 				9D62C8FA16ED25A8002E2F47 /* Default.png in Resources */,
+				2332A7FA16ED304C00DC749C /* QR.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

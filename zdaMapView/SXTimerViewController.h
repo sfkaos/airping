@@ -11,8 +11,11 @@
 
 @interface SXTimerViewController : UIViewController {
     int departureCounter;
+    int etaCounter;
     bool startA;
+    bool startETACounter;
     NSTimer *departureTimer;
+    NSTimer *etaTimer;
 }
 @property (nonatomic, retain) NSDateFormatter *dateFormatter;
 @property (nonatomic, retain, readwrite) IBOutlet UILabel *secondsA;
