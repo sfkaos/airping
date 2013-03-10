@@ -15,11 +15,13 @@
 @interface SXTimerViewController ()
 - (void)startTimer;
 - (void)updateETATimer;
+- (void)updateAlert;
 @end
 
 @implementation SXTimerViewController
 @synthesize secondsA = _secondsA;
 @synthesize pagingController = _pagingController;
+@synthesize etaAlertView = _etaAlertView;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -78,7 +80,7 @@
         NSDate *testDate = [NSDate date];
         NSLog(@"date %@", date);
         
-        departureCounter = [[NSDate date] timeIntervalSinceDate:date];
+        departureCounter = [date timeIntervalSinceDate:[NSDate date]];
         NSLog(@"counter %d", departureCounter);
         [self updateTimer];
         //        NSMutableArray *mutablePosts = [NSMutableArray arrayWithCapacity:[postsFromResponse count]];
@@ -123,11 +125,13 @@
     if (departureCounter < 0) // Once timer goes below 0, reset all variables.
     {
         self.secondsA.text = @"00:00";
-        [departureTimer invalidate];
+//        [departureTimer invalidate];
         startA = TRUE;
-        departureCounter = 10;
+//        departureCounter = 10;
         
     }
+    
+    [self updateAlert];
     
 }
 
@@ -170,5 +174,12 @@
     }
 }
 
+- (void)updateAlert
+{
+    if (self.etaTimer.text ) {
+        
+    }
+    
+}
 
 @end
