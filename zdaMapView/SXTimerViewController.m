@@ -195,6 +195,7 @@
     NSLog(@"settingsBUttonSelected");
     
     UIDetailViewController *detailController = [[UIDetailViewController alloc] initWithNibName:@"UIDetailViewController" bundle:nil];
+    detailController.view.frame = CGRectMake(0, 20, 320, 460);
     [UIView transitionFromView:self.view toView:detailController.view duration:1.0f options:UIViewAnimationOptionTransitionFlipFromRight completion:^(BOOL finished) {
         
     }];

@@ -40,7 +40,7 @@
     SXTimerViewController *timerController = [[SXTimerViewController alloc] initWithNibName:@"SXTimerViewController" bundle:nil];
     NSLog(@"settingsBUttonSelected");
     
-
+    timerController.view.frame = CGRectMake(0, 20, 320, 460);
     [UIView transitionFromView:self.view toView:timerController.view duration:1.0f options:UIViewAnimationOptionTransitionFlipFromRight completion:^(BOOL finished) {
         
     }];
