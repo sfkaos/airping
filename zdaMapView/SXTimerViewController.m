@@ -11,6 +11,8 @@
 #import "ATMapViewController.h"
 #import "SXPHPClient.h"
 #import "BoardingInfoManager.h"
+#import "UIDetailViewController.h"
+
 
 @interface SXTimerViewController ()
 - (void)startTimer;
@@ -191,6 +193,11 @@
 - (IBAction)settingsButtonSelected:(id)sender
 {
     NSLog(@"settingsBUttonSelected");
+    
+    UIDetailViewController *detailController = [[UIDetailViewController alloc] initWithNibName:@"UIDetailViewController" bundle:nil];
+    [UIView transitionFromView:self.view toView:detailController.view duration:1.0f options:UIViewAnimationOptionTransitionFlipFromRight completion:^(BOOL finished) {
+        
+    }];
 }
 
 @end
