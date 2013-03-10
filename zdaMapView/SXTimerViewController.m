@@ -31,8 +31,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZ"];
+    
     // Do any additional setup after loading the view from its nib.
-    counterA = 86400;
+    departureCounter = 86400;
     startA = TRUE;
     [self startTimer];
     
@@ -47,7 +49,7 @@
     
     [self addChildViewController:self.pagingController];
     CGRect pagingFrame = self.pagingController.view.frame;
-    pagingFrame.origin.y = 300.0f;
+    pagingFrame.origin.y = self.view.frame.size.height - 150.0f;
     [self.pagingController.view setFrame:pagingFrame];
     [self.view addSubview:self.pagingController.view];
     
@@ -80,12 +82,15 @@
 
 - (void)updateTimer{ //Happens every time updateTimer is called. Should occur every second.
     
-    counterA -= 1;
+    departureCounter -= 1;
     
-    CGFloat hours = floor(counterA/3600.0f);
-    CGFloat totalminutes = floor(counterA/60.0f);
-    CGFloat minutes = (int)floor(counterA/60.0f) % 60;
-    CGFloat mseconds = round(counterA - (totalminutes * 60));
+    CGFloat hours = floor(departureCounter/3600.0f);
+    CGFloat totalminutes = floor(departureCounter/60.0f);
+    CGFloat minutes = (int)floor(departureCounter/60.0f) % 60;
+    CGFloat mseconds = round(departureCounter - (totalminutes * 60));
+    
+    
+    
     
     
     if (hours > 0) {
@@ -95,14 +100,14 @@
     }
     
     
-    if (counterA < 0) // Once timer goes below 0, reset all variables.
+    if (departureCounter < 0) // Once timer goes below 0, reset all variables.
     {
         
-        self.secondsA.text = @"";
+        self.secondsA.text = @"00:00";
         
-        [timerA invalidate];
+        [departureTimer invalidate];
         startA = TRUE;
-        counterA = 10;
+        departureCounter = 10;
         
     }
     
@@ -114,7 +119,7 @@
     {
 //        self.secondsA.text = @"10";
         startA = FALSE;
-        timerA = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateTimer) userInfo:nil repeats:YES];
+        departureTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateTimer) userInfo:nil repeats:YES];
     }
 }
 
