@@ -16,10 +16,13 @@
     bool startETACounter;
     NSTimer *departureTimer;
     NSTimer *etaTimer;
+    
 }
+@property (nonatomic, retain) IBOutlet UIButton *settingsButton;
 @property (nonatomic, retain) NSDateFormatter *dateFormatter;
 @property (nonatomic, retain, readwrite) IBOutlet UILabel *secondsA;
 @property (nonatomic, retain, readwrite) IBOutlet UILabel *etaTimer;
 @property (nonatomic, retain) IBOutlet UIView *etaAlertView;
 @property (nonatomic, retain, readwrite) ATPagingViewController *pagingController;
+- (IBAction)settingsButtonSelected:(id)sender;
 @end

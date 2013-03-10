@@ -188,4 +188,9 @@
     
 }
 
+- (IBAction)settingsButtonSelected:(id)sender
+{
+    NSLog(@"settingsBUttonSelected");
+}
+
 @end
