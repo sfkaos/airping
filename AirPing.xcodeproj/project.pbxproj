@@ -68,7 +68,6 @@
 		519A684115AB0B460029D056 /* pre_build_zda in Resources */ = {isa = PBXBuildFile; fileRef = 519A684015AB0B460029D056 /* pre_build_zda */; };
 		51A9094A14D185D500FEA336 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 51A9094914D185D500FEA336 /* libsqlite3.dylib */; };
 		9D62C8FA16ED25A8002E2F47 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D62C8F916ED25A8002E2F47 /* Default.png */; };
-		9D62C8FC16ED2BBF002E2F47 /* qr.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D62C8FB16ED2BBF002E2F47 /* qr.png */; };
 		9D6FB5FC16ED2137004C1487 /* zda.Framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D6FB5FB16ED2137004C1487 /* zda.Framework */; };
 		9D6FB5FE16ED2352004C1487 /* icon-58.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D6FB5FD16ED2352004C1487 /* icon-58.png */; };
 /* End PBXBuildFile section */
