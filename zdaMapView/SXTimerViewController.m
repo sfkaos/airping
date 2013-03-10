@@ -43,7 +43,7 @@
     
     startA = TRUE;
     startETACounter = TRUE;
-    etaCounter = 60*60;
+    etaCounter = 60*60 + 23;
     
     [self startTimer];
     
@@ -121,7 +121,7 @@
     
     
     if (hours > 0) {
-        self.secondsA.text = [NSString stringWithFormat:@"%02d:%02d:%02d", (int)hours, (int)minutes, (int)mseconds];
+        self.secondsA.text = [NSString stringWithFormat:@"%01d:%02d:%02d", (int)hours, (int)minutes, (int)mseconds];
     } else {
         self.secondsA.text = [NSString stringWithFormat:@"%02d:%02d", (int)minutes, (int)mseconds];
     }
@@ -141,8 +141,8 @@
 }
 
 - (void)updateETATimer{ //Happens every time updateTimer is called. Should occur every second.
-    etaCounter -= 1;
-    
+//    etaCounter -= 1;
+    etaCounter = 60 * 34 + 24;
     CGFloat hours = floor(etaCounter/3600.0f);
     CGFloat totalminutes = floor(etaCounter/60.0f);
     CGFloat minutes = (int)floor(etaCounter/60.0f) % 60;
@@ -150,7 +150,7 @@
     
     
     if (hours > 0) {
-        self.etaTimer.text = [NSString stringWithFormat:@"%02d:%02d:%02d", (int)hours, (int)minutes, (int)mseconds];
+        self.etaTimer.text = [NSString stringWithFormat:@"%01d:%02d:%02d", (int)hours, (int)minutes, (int)mseconds];
     } else {
         self.etaTimer.text = [NSString stringWithFormat:@"%02d:%02d", (int)minutes, (int)mseconds];
     }
@@ -182,7 +182,7 @@
 - (void)updateAlert
 {
     NSLog(@"departureCounter %d", departureCounter);
-    if (departureCounter <= (15 * 60)) {
+    if ((departureCounter <= (15 * 60)) || (etaCounter >= departureCounter)) {
         [self.etaAlertView setBackgroundColor:[UIColor colorWithRed:218.0f/255.0f green:61.0f/255.0f blue:38.0f/255.0f alpha:1.0f]];
     } else {
         [self.etaAlertView setBackgroundColor:[UIColor colorWithRed:114.0f/255.0f green:193.0f/255.0f blue:176.0f/255.0f alpha:1.0f]];
