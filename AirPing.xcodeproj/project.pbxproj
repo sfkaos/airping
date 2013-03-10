@@ -67,6 +67,7 @@
 		519A684115AB0B460029D056 /* pre_build_zda in Resources */ = {isa = PBXBuildFile; fileRef = 519A684015AB0B460029D056 /* pre_build_zda */; };
 		51A9094A14D185D500FEA336 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 51A9094914D185D500FEA336 /* libsqlite3.dylib */; };
 		9D62C8FA16ED25A8002E2F47 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D62C8F916ED25A8002E2F47 /* Default.png */; };
+		9D62C8FC16ED2BBF002E2F47 /* qr.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D62C8FB16ED2BBF002E2F47 /* qr.png */; };
 		9D6FB5FC16ED2137004C1487 /* zda.Framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D6FB5FB16ED2137004C1487 /* zda.Framework */; };
 		9D6FB5FE16ED2352004C1487 /* icon-58.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D6FB5FD16ED2352004C1487 /* icon-58.png */; };
 /* End PBXBuildFile section */
@@ -168,6 +169,7 @@
 		519A684015AB0B460029D056 /* pre_build_zda */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = pre_build_zda; sourceTree = SOURCE_ROOT; };
 		51A9094914D185D500FEA336 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		9D62C8F916ED25A8002E2F47 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		9D62C8FB16ED2BBF002E2F47 /* qr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = qr.png; path = img/qr.png; sourceTree = "<group>"; };
 		9D6FB5FB16ED2137004C1487 /* zda.Framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = zda.Framework; path = ../../Downloads/zda.Framework; sourceTree = "<group>"; };
 		9D6FB5FD16ED2352004C1487 /* icon-58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-58.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -200,6 +202,7 @@
 			children = (
 				9D62C8F916ED25A8002E2F47 /* Default.png */,
 				9D6FB5FD16ED2352004C1487 /* icon-58.png */,
+				9D62C8FB16ED2BBF002E2F47 /* qr.png */,
 				1A3C6E5A13EC0DB600E7DE7E /* zdaMapView */,
 				1A3C6E5313EC0DB600E7DE7E /* Frameworks */,
 				1A3C6E5113EC0DB600E7DE7E /* Products */,
@@ -471,6 +474,7 @@
 				23D2EDC616ED1BB200CA9E7C /* location_marker.png in Resources */,
 				9D6FB5FE16ED2352004C1487 /* icon-58.png in Resources */,
 				9D62C8FA16ED25A8002E2F47 /* Default.png in Resources */,
+				9D62C8FC16ED2BBF002E2F47 /* qr.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
