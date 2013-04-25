@@ -12,12 +12,16 @@
 #import "SXPHPClient.h"
 #import "BoardingInfoManager.h"
 #import "UIDetailViewController.h"
+#import "SXFlightAwareClient.h"
 
+#define kUserName @"winraguini"
+#define kAPIKey @"40a82412fd918acf488e7a7c2a3f47e875103b1c"
 
 @interface SXTimerViewController ()
 - (void)startTimer;
 - (void)updateETATimer;
 - (void)updateAlert;
+- (void)searchForFlights;
 @end
 
 @implementation SXTimerViewController
@@ -62,14 +66,43 @@
     [self.pagingController.view setFrame:pagingFrame];
     [self.view addSubview:self.pagingController.view];
     
+    [[SXFlightAwareClient sharedClient] setUsername:kUserName andPassword:kAPIKey];
     
-    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(getData) userInfo:nil repeats:YES];
+    [self searchForFlights];
+//    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(getData) userInfo:nil repeats:YES];
     
 
     
     
 }
 
+- (void)searchForFlights
+{
+    int nowTime = (int)[[NSDate date] timeIntervalSinceReferenceDate] + NSTimeIntervalSince1970;
+    
+    unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
+    
+    NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:unitFlags fromDate:[NSDate date]];
+    
+    [dateComponents setDay:[dateComponents day] + 7];
+    
+    NSDate *endDate = [[NSCalendar currentCalendar] dateFromComponents:dateComponents];
+    
+    int endTime = (int)[endDate timeIntervalSinceReferenceDate] + NSTimeIntervalSince1970;
+    
+    NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys: [NSNumber numberWithInt:nowTime], @"startDate", [NSNumber numberWithInt:endTime], @"endDate", @"SFO", @"origin", @"AA", @"airline", @"3", @"howMany", nil];
+    [[SXFlightAwareClient sharedClient] getPath:@"AirlineFlightSchedules" parameters:dict success:^(AFHTTPRequestOperation *operation, id JSON) {
+            NSDictionary *dict = (NSDictionary*)JSON;
+//            NSLog(@"AirlineFlightSchedulesResult : %@", [[dict objectForKey:@"AirlineFlightSchedulesResult"] objectForKey:@"data"]);
+        NSArray *flightsArray = [[dict objectForKey:@"AirlineFlightSchedulesResult"] objectForKey:@"data"];
+        NSLog(@"flight %@", [flightsArray objectAtIndex:0]);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        //        if (block) {
+        //            block([NSArray array], error);
+        //        }
+        NSLog(@"Error");
+    }];
+}
 
 - (void)getData
 {
