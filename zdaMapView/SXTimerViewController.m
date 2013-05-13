@@ -103,6 +103,28 @@
             NSLog(@"dict %@", dict);
             etaCounter = [[dict objectForKey:@"value"] intValue];
             NSLog(@"etaCounter is %d", etaCounter);
+            CGFloat hours = floor(etaCounter/3600.0f);
+            CGFloat totalminutes = floor(etaCounter/60.0f);
+            CGFloat minutes = (int)floor(etaCounter/60.0f) % 60;
+            CGFloat mseconds = round(etaCounter - (totalminutes * 60));
+            
+            
+            if (hours > 0) {
+                self.etaTimer.text = [NSString stringWithFormat:@"%01d:%02d:%02d", (int)hours, (int)minutes, (int)mseconds];
+            } else {
+                self.etaTimer.text = [NSString stringWithFormat:@"%02d:%02d", (int)minutes, (int)mseconds];
+            }
+            
+            
+            if (etaCounter < 0) // Once timer goes below 0, reset all variables.
+            {
+                self.etaTimer.text = @"00:00";
+                [departureTimer invalidate];
+                //        startA = TRUE;
+                //        departureCounter = 10;
+                
+            }
+
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 NSLog(@"Error: %@", [error localizedDescription]);
                 
@@ -155,7 +177,29 @@
         departureCounter = [departureDate timeIntervalSinceDate:[NSDate date]];
         NSLog(@"counter %d", departureCounter);
         
+        CGFloat hours = floor(departureCounter/3600.0f);
+        CGFloat totalminutes = floor(departureCounter/60.0f);
+        CGFloat minutes = (int)floor(departureCounter/60.0f) % 60;
+        CGFloat mseconds = round(departureCounter - (totalminutes * 60));
         
+        
+        if (hours > 0) {
+            self.secondsA.text = [NSString stringWithFormat:@"%01d:%02d:%02d", (int)hours, (int)minutes, (int)mseconds];
+        } else {
+            self.secondsA.text = [NSString stringWithFormat:@"%02d:%02d", (int)minutes, (int)mseconds];
+        }
+        
+        
+        if (departureCounter < 0) // Once timer goes below 0, reset all variables.
+        {
+            self.secondsA.text = @"00:00";
+            //        [departureTimer invalidate];
+            startA = TRUE;
+            //        departureCounter = 10;
+            
+        }
+        
+        [self updateAlert];
         
 //        [self updateTimer];
         //        NSMutableArray *mutablePosts = [NSMutableArray arrayWithCapacity:[postsFromResponse count]];
@@ -184,56 +228,13 @@
 - (void)updateTimer{ //Happens every time updateTimer is called. Should occur every second.
 //    [self updateETATimer];
     
-    CGFloat hours = floor(departureCounter/3600.0f);
-    CGFloat totalminutes = floor(departureCounter/60.0f);
-    CGFloat minutes = (int)floor(departureCounter/60.0f) % 60;
-    CGFloat mseconds = round(departureCounter - (totalminutes * 60));
-    
-    
-    if (hours > 0) {
-        self.secondsA.text = [NSString stringWithFormat:@"%01d:%02d:%02d", (int)hours, (int)minutes, (int)mseconds];
-    } else {
-        self.secondsA.text = [NSString stringWithFormat:@"%02d:%02d", (int)minutes, (int)mseconds];
-    }
-    
-    
-    if (departureCounter < 0) // Once timer goes below 0, reset all variables.
-    {
-        self.secondsA.text = @"00:00";
-//        [departureTimer invalidate];
-        startA = TRUE;
-//        departureCounter = 10;
-        
-    }
-    
-    [self updateAlert];
+
     
 }
 
 - (void)updateETATimer{ //Happens every time updateTimer is called. Should occur every second.
     [self getETATime];
-    NSLog(@"etaCounter is %d", etaCounter);
-    CGFloat hours = floor(etaCounter/3600.0f);
-    CGFloat totalminutes = floor(etaCounter/60.0f);
-    CGFloat minutes = (int)floor(etaCounter/60.0f) % 60;
-    CGFloat mseconds = round(etaCounter - (totalminutes * 60));
-    
-    
-    if (hours > 0) {
-        self.etaTimer.text = [NSString stringWithFormat:@"%01d:%02d:%02d", (int)hours, (int)minutes, (int)mseconds];
-    } else {
-        self.etaTimer.text = [NSString stringWithFormat:@"%02d:%02d", (int)minutes, (int)mseconds];
-    }
-    
-    
-    if (etaCounter < 0) // Once timer goes below 0, reset all variables.
-    {
-        self.etaTimer.text = @"00:00";
-        [departureTimer invalidate];
-//        startA = TRUE;
-        //        departureCounter = 10;
-        
-    }
+//    NSLog(@"etaCounter is %d", etaCounter);
     
 }
 
