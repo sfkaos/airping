@@ -10,7 +10,7 @@
 #import "ATGateViewController.h"
 #import "ATMapViewController.h"
 #import "SXPHPClient.h"
-#import "BoardingInfoManager.h"
+#import "SXFlightSchedule.h"
 #import "UIDetailViewController.h"
 #import "SXFlightAwareClient.h"
 
@@ -21,7 +21,7 @@
 - (void)startTimer;
 - (void)updateETATimer;
 - (void)updateAlert;
-- (void)searchForFlights;
+- (NSArray*)searchForFlights;
 @end
 
 @implementation SXTimerViewController
@@ -67,8 +67,9 @@
     [self.view addSubview:self.pagingController.view];
     
     [[SXFlightAwareClient sharedClient] setUsername:kUserName andPassword:kAPIKey];
+    [[SXFlightAwareClient sharedClient] setDelegate:self];
     
-    [self searchForFlights];
+    [[SXFlightAwareClient sharedClient] searchForFlightsWithParameters:[NSDictionary dictionary]];
 //    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(getData) userInfo:nil repeats:YES];
     
 
@@ -76,32 +77,9 @@
     
 }
 
-- (void)searchForFlights
+- (void)flightHTTPClient:(SXFlightAwareClient*)client didFindFlights:(NSArray*)flightsArray
 {
-    int nowTime = (int)[[NSDate date] timeIntervalSinceReferenceDate] + NSTimeIntervalSince1970;
-    
-    unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
-    
-    NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:unitFlags fromDate:[NSDate date]];
-    
-    [dateComponents setDay:[dateComponents day] + 7];
-    
-    NSDate *endDate = [[NSCalendar currentCalendar] dateFromComponents:dateComponents];
-    
-    int endTime = (int)[endDate timeIntervalSinceReferenceDate] + NSTimeIntervalSince1970;
-    
-    NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys: [NSNumber numberWithInt:nowTime], @"startDate", [NSNumber numberWithInt:endTime], @"endDate", @"SFO", @"origin", @"AA", @"airline", @"3", @"howMany", nil];
-    [[SXFlightAwareClient sharedClient] getPath:@"AirlineFlightSchedules" parameters:dict success:^(AFHTTPRequestOperation *operation, id JSON) {
-            NSDictionary *dict = (NSDictionary*)JSON;
-//            NSLog(@"AirlineFlightSchedulesResult : %@", [[dict objectForKey:@"AirlineFlightSchedulesResult"] objectForKey:@"data"]);
-        NSArray *flightsArray = [[dict objectForKey:@"AirlineFlightSchedulesResult"] objectForKey:@"data"];
-        NSLog(@"flight %@", [flightsArray objectAtIndex:0]);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        //        if (block) {
-        //            block([NSArray array], error);
-        //        }
-        NSLog(@"Error");
-    }];
+    NSLog(@"got these flights %@", flightsArray);
 }
 
 - (void)getData
@@ -120,7 +98,7 @@
         
         departureCounter = [date timeIntervalSinceDate:[NSDate date]];
         NSLog(@"counter %d", departureCounter);
-        [self updateTimer];
+//        [self updateTimer];
         //        NSMutableArray *mutablePosts = [NSMutableArray arrayWithCapacity:[postsFromResponse count]];
         //        for (NSDictionary *attributes in postsFromResponse) {
         //            BoardingInfo *boardingInfo = [[BoardingInfo alloc] initWithAttributes:attributes];
@@ -207,7 +185,7 @@
     {
 //        self.secondsA.text = @"10";
         startA = FALSE;
-        departureTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateTimer) userInfo:nil repeats:YES];
+//        departureTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateTimer) userInfo:nil repeats:YES];
 //        etaTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateETATimer) userInfo:nil repeats:YES];
     }
 }

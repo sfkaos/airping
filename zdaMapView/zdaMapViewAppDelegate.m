@@ -30,6 +30,7 @@
 #import "ZDAEventManager.h"
 #import "FunctionsViewController.h"
 #import "Constants.h"
+#import "SXStartingViewController.h"
 
 @implementation zdaMapViewAppDelegate
 @synthesize window;
@@ -97,8 +98,11 @@
     //set it to display the first tab by default
     tabController.selectedIndex = 0;
     
+    //Add new input screen
+    SXStartingViewController *startingController = [[SXStartingViewController alloc] initWithNibName:@"SXStartingViewController" bundle:nil];
+    
     //add the nav controller to the window for displaying
-    self.window.rootViewController = self.timerController;
+    self.window.rootViewController = startingController;
     //make and show the window
     [window makeKeyAndVisible];
     
