@@ -13,6 +13,8 @@
 #import "SXFlightSchedule.h"
 #import "UIDetailViewController.h"
 #import "SXFlightAwareClient.h"
+#import "SXLocationClient.h"
+#import "SXFlightManager.h"
 
 #define kUserName @"winraguini"
 #define kAPIKey @"40a82412fd918acf488e7a7c2a3f47e875103b1c"
@@ -22,9 +24,12 @@
 - (void)updateETATimer;
 - (void)updateAlert;
 - (NSArray*)searchForFlights;
+- (void)getETATime;
 @end
 
-@implementation SXTimerViewController
+@implementation SXTimerViewController {
+    CLLocationManager *locationManager;
+}
 @synthesize secondsA = _secondsA;
 @synthesize pagingController = _pagingController;
 @synthesize etaAlertView = _etaAlertView;
@@ -40,6 +45,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self getETATime];
+    
+    //Not actually used since simulator does not give real GPS data
+    locationManager = [[CLLocationManager alloc] init];
+    locationManager.delegate = self;
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    
+    [locationManager startUpdatingLocation];
+    
+    //Instead will use AA HQ lat/long hardcoded
+//    32.828665,-97.050347
+    
     self.dateFormatter = [[NSDateFormatter alloc] init];
     [self.dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZ"];
     //2013-03-10T17:00:00-05:00
@@ -47,7 +65,6 @@
     
     startA = TRUE;
     startETACounter = TRUE;
-    etaCounter = 60*60 + 23;
     
     [self startTimer];
     
@@ -70,11 +87,35 @@
     [[SXFlightAwareClient sharedClient] setDelegate:self];
     
     [[SXFlightAwareClient sharedClient] searchForFlightsWithParameters:[NSDictionary dictionary]];
-//    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(getData) userInfo:nil repeats:YES];
+    [self getData];
+    [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(getData) userInfo:nil repeats:YES];
     
 
     
     
+}
+
+- (void)getETATime
+{
+    NSDictionary *parameters = [[NSDictionary alloc] initWithObjectsAndKeys:@"32.828665N,97.050347W",@"from", [[SXFlightManager sharedManager] departureAirport], @"to", nil];
+    
+    NSLog(@"parameters %@", parameters);
+    
+    __block int etaTime;
+    
+    [[SXLocationClient sharedClient] getPath:@"" parameters:parameters success:^(AFHTTPRequestOperation *operation, id JSON) {
+        NSDictionary *dict = (NSDictionary*)JSON;
+        NSLog(@"dict %@", dict);
+        etaCounter = [[dict objectForKey:@"value"] intValue];
+        NSLog(@"etaTime is %d", etaTime);
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                NSLog(@"Error: %@", [error localizedDescription]);
+                
+                
+                UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Uh oh" message:@"There was an error getting your location." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+                [errorAlertView show];
+    }];
+
 }
 
 - (void)flightHTTPClient:(SXFlightAwareClient*)client didFindFlights:(NSArray*)flightsArray
@@ -84,13 +125,27 @@
 
 - (void)getData
 {
-    [[SXPHPClient sharedClient] getPath:@"" parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
+    
+//    {"boarding":"2013-03-10T19:00:00.000-05:00","changed":null,"flight_status":"ONTIME","flight_number":"427","origin_code":"AUS","destination_code":"LAX","terminal":null,"gate":"13","aa_advantage":"1234"}
+    
+    
+    NSString *departureDate = [self.dateFormatter stringFromDate:[[SXFlightManager sharedManager] departureDate]];
+    
+    NSLog(@"sending departureDate as %@", departureDate);
+    
+    NSDictionary *parameters = [[NSDictionary alloc] initWithObjectsAndKeys:[[SXFlightManager sharedManager] departureAirport],@"destination_code",[[SXFlightManager sharedManager] flightNumber], @"flight_number",departureDate, @"departure", nil];
+    [[SXPHPClient sharedClient] getPath:@"" parameters:parameters success:^(AFHTTPRequestOperation *operation, id JSON) {
         NSDictionary *dict = (NSDictionary*)JSON;
         NSLog(@"%@", [dict objectForKey:@"aa_advantage"]);
         
         NSLog(@"whole dict %@", dict);
         NSLog(@"boarding time: %@", [dict objectForKey:@"boarding"]);
         NSString *boardingTime = [dict objectForKey:@"boarding"];
+        
+        NSLog(@"flight_number %@", [dict objectForKey:@"flight_number"]);
+        NSLog(@"destination_code %@", [dict objectForKey:@"destination_code"]);
+        NSLog(@"terminal %@", [dict objectForKey:@"terminal"]);
+        NSLog(@"gate %@", [dict objectForKey:@"gate"]);
         
         NSDate *date = [self.dateFormatter dateFromString:boardingTime];
         NSDate *testDate = [NSDate date];
@@ -109,6 +164,7 @@
         //            block([NSArray arrayWithArray:mutablePosts], nil);
         //        }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"WRONG: %@", [error localizedDescription]);
         //        if (block) {
         //            block([NSArray array], error);
         //        }
@@ -152,8 +208,8 @@
 }
 
 - (void)updateETATimer{ //Happens every time updateTimer is called. Should occur every second.
-//    etaCounter -= 1;
-    etaCounter = 60 * 34 + 24;
+    [self getETATime];
+    NSLog(@"etaCounter is %d", etaCounter);
     CGFloat hours = floor(etaCounter/3600.0f);
     CGFloat totalminutes = floor(etaCounter/60.0f);
     CGFloat minutes = (int)floor(etaCounter/60.0f) % 60;
@@ -170,7 +226,7 @@
     if (etaCounter < 0) // Once timer goes below 0, reset all variables.
     {
         self.etaTimer.text = @"00:00";
-        //        [departureTimer invalidate];
+        [departureTimer invalidate];
 //        startA = TRUE;
         //        departureCounter = 10;
         
@@ -185,7 +241,7 @@
     {
 //        self.secondsA.text = @"10";
         startA = FALSE;
-//        departureTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateTimer) userInfo:nil repeats:YES];
+        departureTimer = [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(updateTimer) userInfo:nil repeats:YES];
 //        etaTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateETATimer) userInfo:nil repeats:YES];
     }
 }

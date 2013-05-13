@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "ATPagingViewController.h"
+#import <CoreLocation/CoreLocation.h>
 
-@interface SXTimerViewController : UIViewController {
+@interface SXTimerViewController : UIViewController <CLLocationManagerDelegate> {
     int departureCounter;
     int etaCounter;
     bool startA;
@@ -25,4 +26,5 @@
 @property (nonatomic, retain) IBOutlet UIView *etaAlertView;
 @property (nonatomic, retain, readwrite) ATPagingViewController *pagingController;
 - (IBAction)settingsButtonSelected:(id)sender;
+- (IBAction)backButtonSelected:(id)sender;
 @end

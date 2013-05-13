@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1A3C6E4F13EC0DB600E7DE7E"
-            BuildableName = "zdaMapView.app"
-            BlueprintName = "zdaMapView"
-            ReferencedContainer = "container:zdaMapView.xcodeproj">
+            BuildableName = "AirPing.app"
+            BlueprintName = "AirPing"
+            ReferencedContainer = "container:AirPing.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -52,9 +52,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1A3C6E4F13EC0DB600E7DE7E"
-            BuildableName = "zdaMapView.app"
-            BlueprintName = "zdaMapView"
-            ReferencedContainer = "container:zdaMapView.xcodeproj">
+            BuildableName = "AirPing.app"
+            BlueprintName = "AirPing"
+            ReferencedContainer = "container:AirPing.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>

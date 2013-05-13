@@ -12,4 +12,5 @@
 @property (nonatomic, strong, readwrite) IBOutlet UILabel *gateLabel;
 @property (nonatomic, strong, readwrite) IBOutlet UILabel *terminalLabel;
 @property (nonatomic, strong, readwrite) IBOutlet UILabel *timeLabel;
+@property (nonatomic, strong, readwrite) IBOutlet UILabel *flightLabel;
 @end

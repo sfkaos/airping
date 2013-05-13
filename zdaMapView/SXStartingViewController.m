@@ -74,6 +74,7 @@ UITextField *activeField;
 {
     if ([self validateFields]) {
         UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+        
         window.rootViewController = [[SXTimerViewController alloc] initWithNibName:@"SXTimerViewController" bundle:nil];
         [window makeKeyAndVisible];
     }

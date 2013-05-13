@@ -1,22 +1,21 @@
 //
-//  SXPHPClient.m
-//  zdaMapView
+//  SXLocationClient.m
+//  AirPing
 //
-//  Created by Winfred Raguini on 3/10/13.
-//  Copyright (c) 2013 Unknown. All rights reserved.
+//  Created by Winfred Raguini on 5/12/13.
+//  Copyright (c) 2013 AirPing.co. All rights reserved.
 //
 
-#import "SXPHPClient.h"
-#import "AFJSONRequestOperation.h"
+#import "SXLocationClient.h"
 
-static NSString * const kAFPHPAPIBaseURLString = @"http://airping.co:8080/api/aa.php";
+#define kLocationBaseURLString @"http://airping.co:8080/api/geo.php"
 
-@implementation SXPHPClient
-+ (SXPHPClient *)sharedClient {
-    static SXPHPClient *_sharedClient = nil;
+@implementation SXLocationClient
++ (SXLocationClient *)sharedClient {
+    static SXLocationClient *_sharedClient = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedClient = [[SXPHPClient alloc] initWithBaseURL:[NSURL URLWithString:kAFPHPAPIBaseURLString]];
+        _sharedClient = [[SXLocationClient alloc] initWithBaseURL:[NSURL URLWithString:kLocationBaseURLString]];
     });
     
     return _sharedClient;
@@ -35,5 +34,4 @@ static NSString * const kAFPHPAPIBaseURLString = @"http://airping.co:8080/api/aa
     
     return self;
 }
-
 @end
