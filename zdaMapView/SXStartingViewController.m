@@ -31,7 +31,6 @@ UITextField *activeField;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
     
     
     
@@ -73,10 +72,18 @@ UITextField *activeField;
 - (IBAction)beginButtonSelected:(id)sender
 {
     if ([self validateFields]) {
-        UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+        SXTimerViewController *timerController = [[SXTimerViewController alloc] initWithNibName:@"SXTimerViewController" bundle:nil];
         
-        window.rootViewController = [[SXTimerViewController alloc] initWithNibName:@"SXTimerViewController" bundle:nil];
-        [window makeKeyAndVisible];
+        CGRect timerViewFrame = timerController.view.frame;
+        timerViewFrame.origin.y = 20;
+        timerViewFrame.size.height = 460.0f;
+        [timerController.view setFrame:timerViewFrame];
+        
+        
+        
+        [UIView transitionFromView:self.view toView:timerController.view duration:1.0f options:UIViewAnimationOptionTransitionFlipFromRight completion:^(BOOL finished) {
+            
+        }];
     }
 }
 
@@ -101,9 +108,6 @@ UITextField *activeField;
         NSString *year = [dateArray objectAtIndex:2];
         if ([year length] == 2) {
             year = [NSString stringWithFormat:@"20%@", year];
-        } else {
-            UIAlertView *badYearFieldAlert = [[UIAlertView alloc] initWithTitle:@"Ooops!" message:@"The year must be entered with 4 digits." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
-            [badYearFieldAlert show];
         }
         
         [comps setYear:[year intValue]];
@@ -151,7 +155,7 @@ UITextField *activeField;
     CGRect aRect = self.view.frame;
     aRect.size.height -= kbSize.height;
     CGPoint origin = activeField.frame.origin;
-    origin.y += self.scrollView.frame.origin.y;
+    origin.y += (self.scrollView.frame.origin.y + activeField.frame.size.height);
     
     NSLog(@"keyBoard height is %1.2f", kbSize.height);
     
@@ -162,7 +166,7 @@ UITextField *activeField;
     NSLog(@"activeField origin.y %1.2f", activeField.frame.origin.y);
     
     if (!CGRectContainsPoint(aRect, origin) ) {
-        CGPoint scrollPoint = CGPointMake(0.0, (activeField.frame.origin.y + 15.0f + self.scrollView.frame.origin.y) -(aRect.size.height));
+        CGPoint scrollPoint = CGPointMake(0.0, (activeField.frame.origin.y + activeField.frame.size.height + self.scrollView.frame.origin.y) - (aRect.size.height));
         [self.scrollView setContentOffset:scrollPoint animated:YES];
     }
 }

@@ -13,5 +13,11 @@
 @property (nonatomic, strong) NSString *departureAirport;
 @property (nonatomic, strong) NSDate *departureDate;
 @property (nonatomic, strong) NSString *flightNumber;
+@property (nonatomic, strong) NSString *originCode;
+@property (nonatomic, strong) NSString *destinationCode;
+@property (nonatomic, strong) NSString *terminal;
+@property (nonatomic, strong) NSString *gate;
+
+
 +(SXFlightManager*)sharedManager;
 @end

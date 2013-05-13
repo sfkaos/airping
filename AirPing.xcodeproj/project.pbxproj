@@ -51,6 +51,8 @@
 		2343516A1740A82200E7AAF8 /* ZDAEventManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A3C6ECB13EC4A0300E7DE7E /* ZDAEventManager.m */; };
 		2343516C1740A8B600E7AAF8 /* zda.Framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2343516B1740A8B600E7AAF8 /* zda.Framework */; };
 		2343516F1740AC7B00E7AAF8 /* SXLocationClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2343516E1740AC7B00E7AAF8 /* SXLocationClient.m */; };
+		234351721740C14200E7AAF8 /* back_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 234351701740C14200E7AAF8 /* back_arrow@2x.png */; };
+		234351731740C14200E7AAF8 /* back_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 234351711740C14200E7AAF8 /* back_arrow.png */; };
 		2392DD491727CA09000C0496 /* SXFlightAwareClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2392DD481727CA09000C0496 /* SXFlightAwareClient.m */; };
 		2392DD4C17291E8A000C0496 /* SXFlightManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2392DD4B17291E8A000C0496 /* SXFlightManager.m */; };
 		23D2EDC516ED1BB200CA9E7C /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 23D2EDC316ED1BB200CA9E7C /* settings.png */; };
@@ -150,6 +152,9 @@
 		2343516B1740A8B600E7AAF8 /* zda.Framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = zda.Framework; path = bin/zda.Framework; sourceTree = "<group>"; };
 		2343516D1740AC7A00E7AAF8 /* SXLocationClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXLocationClient.h; sourceTree = "<group>"; };
 		2343516E1740AC7B00E7AAF8 /* SXLocationClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXLocationClient.m; sourceTree = "<group>"; };
+		234351701740C14200E7AAF8 /* back_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back_arrow@2x.png"; sourceTree = "<group>"; };
+		234351711740C14200E7AAF8 /* back_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back_arrow.png; sourceTree = "<group>"; };
+		234351741740F88900E7AAF8 /* SXGlobalConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXGlobalConstants.h; sourceTree = "<group>"; };
 		2392DD471727CA09000C0496 /* SXFlightAwareClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXFlightAwareClient.h; sourceTree = "<group>"; };
 		2392DD481727CA09000C0496 /* SXFlightAwareClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXFlightAwareClient.m; sourceTree = "<group>"; };
 		2392DD4A17291E8A000C0496 /* SXFlightManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXFlightManager.h; sourceTree = "<group>"; };
@@ -299,6 +304,8 @@
 		1A3C6E8E13EC17FB00E7DE7E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				234351701740C14200E7AAF8 /* back_arrow@2x.png */,
+				234351711740C14200E7AAF8 /* back_arrow.png */,
 				234351661740514300E7AAF8 /* airping_bg.png */,
 				234351671740514300E7AAF8 /* airping_bg@2x.png */,
 				2332A80216ED383F00DC749C /* back_missed_flight.png */,
@@ -436,6 +443,7 @@
 				23F70B1A16ECFB3000AD1BAB /* SXFlightSchedule.m */,
 				2392DD4A17291E8A000C0496 /* SXFlightManager.h */,
 				2392DD4B17291E8A000C0496 /* SXFlightManager.m */,
+				234351741740F88900E7AAF8 /* SXGlobalConstants.h */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -530,6 +538,8 @@
 				23435165174050A200E7AAF8 /* SXStartingViewController.xib in Resources */,
 				234351681740514300E7AAF8 /* airping_bg.png in Resources */,
 				234351691740514300E7AAF8 /* airping_bg@2x.png in Resources */,
+				234351721740C14200E7AAF8 /* back_arrow@2x.png in Resources */,
+				234351731740C14200E7AAF8 /* back_arrow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -662,7 +672,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "zdaMapView/AirPing-Prefix.pch";
 				INFOPLIST_FILE = "zdaMapView/AirPing-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = AirPing;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -688,7 +698,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "zdaMapView/AirPing-Prefix.pch";
 				INFOPLIST_FILE = "zdaMapView/AirPing-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = AirPing;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";

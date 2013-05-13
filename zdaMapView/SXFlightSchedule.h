@@ -20,17 +20,17 @@
 //"seats_cabin_business" = 0;
 //"seats_cabin_coach" = 132;
 //"seats_cabin_first" = 16;
-@property (readonly) NSString *actualIdent;
-@property (readonly) NSString *aircraftType;
-@property (readonly) NSString *arrivalTime;
-@property (readonly) NSString *departureTime;
-@property (readonly) NSString *destination;
-@property (readonly) NSString *ident;
-@property (readonly) NSString *mealService;
-@property (readonly) NSString *origin;
-@property (readonly) NSString *seatsCabinBusiness;
-@property (readonly) NSString *seatsCabinCoach;
-@property (readonly) NSString *seatsCabinFirst;
+@property (nonatomic, copy) NSString *actualIdent;
+@property (nonatomic, copy) NSString *aircraftType;
+@property (nonatomic, copy) NSString *arrivalTime;
+@property (nonatomic, copy) NSString *departureTime;
+@property (nonatomic, copy) NSString *destination;
+@property (nonatomic, copy) NSString *ident;
+@property (nonatomic, copy) NSString *mealService;
+@property (nonatomic, copy) NSString *origin;
+@property (nonatomic, copy) NSString *seatsCabinBusiness;
+@property (nonatomic, copy) NSString *seatsCabinCoach;
+@property (nonatomic, copy) NSString *seatsCabinFirst;
 
 
 - (id)initWithAttributes:(NSDictionary *)attributes;

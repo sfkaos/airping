@@ -10,7 +10,8 @@
 
 @implementation SXFlightSchedule
 - (id)initWithAttributes:(NSDictionary *)attributes
-{    
+{
+    NSLog(@"attribs are %@", attributes);
 //    "actual_ident" = AAL2278;
 //    aircrafttype = B738;
 //    arrivaltime = 1366824300;
@@ -23,7 +24,7 @@
 //    "seats_cabin_coach" = 132;
 //    "seats_cabin_first" = 16;
     if (self = [super init]) {
-        _actualIdent = [attributes objectForKey:@"actual_ident"];
+        _actualIdent = [attributes objectForKey:@"ident"];
         _aircraftType = [attributes objectForKey:@"aircrafttype"];
         _arrivalTime = [attributes objectForKey:@"arrivaltime"];
         _departureTime = [attributes objectForKey:@"departuretime"];

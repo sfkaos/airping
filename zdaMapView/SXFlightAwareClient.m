@@ -67,7 +67,7 @@ static NSString *kSXFlightAwareAPIBaseURLString = @"http://flightxml.flightaware
             SXFlightSchedule *flightSchedule = [[SXFlightSchedule alloc] initWithAttributes:flightDict];
             [mutableFlightArray addObject:flightSchedule];
         }
-        NSLog(@"flight %@", [flightsArray objectAtIndex:0]);
+        
         if ([self.delegate respondsToSelector:@selector(flightHTTPClient:didFindFlights:)]) {
             [self.delegate flightHTTPClient:self didFindFlights:mutableFlightArray];
         }

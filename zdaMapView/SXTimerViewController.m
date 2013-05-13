@@ -15,9 +15,8 @@
 #import "SXFlightAwareClient.h"
 #import "SXLocationClient.h"
 #import "SXFlightManager.h"
+#import "SXStartingViewController.h"
 
-#define kUserName @"winraguini"
-#define kAPIKey @"40a82412fd918acf488e7a7c2a3f47e875103b1c"
 
 @interface SXTimerViewController ()
 - (void)startTimer;
@@ -46,7 +45,9 @@
 {
     [super viewDidLoad];
     
-    [self getETATime];
+    
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
+    
     
     //Not actually used since simulator does not give real GPS data
     locationManager = [[CLLocationManager alloc] init];
@@ -67,6 +68,8 @@
     startETACounter = TRUE;
     
     [self startTimer];
+    [self updateETATimer];
+    [self updateTimer];
     
     self.pagingController = [[ATPagingViewController alloc] initWithNibName:@"ATPagingViewController" bundle:nil];
     
@@ -83,15 +86,8 @@
     [self.pagingController.view setFrame:pagingFrame];
     [self.view addSubview:self.pagingController.view];
     
-    [[SXFlightAwareClient sharedClient] setUsername:kUserName andPassword:kAPIKey];
-    [[SXFlightAwareClient sharedClient] setDelegate:self];
-    
-    [[SXFlightAwareClient sharedClient] searchForFlightsWithParameters:[NSDictionary dictionary]];
     [self getData];
-    [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(getData) userInfo:nil repeats:YES];
-    
-
-    
+    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(getData) userInfo:nil repeats:YES];
     
 }
 
@@ -101,26 +97,19 @@
     
     NSLog(@"parameters %@", parameters);
     
-    __block int etaTime;
     
     [[SXLocationClient sharedClient] getPath:@"" parameters:parameters success:^(AFHTTPRequestOperation *operation, id JSON) {
         NSDictionary *dict = (NSDictionary*)JSON;
-        NSLog(@"dict %@", dict);
-        etaCounter = [[dict objectForKey:@"value"] intValue];
-        NSLog(@"etaTime is %d", etaTime);
-            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"dict %@", dict);
+            etaCounter = [[dict objectForKey:@"value"] intValue];
+            NSLog(@"etaCounter is %d", etaCounter);
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 NSLog(@"Error: %@", [error localizedDescription]);
-                
                 
                 UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Uh oh" message:@"There was an error getting your location." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
                 [errorAlertView show];
     }];
 
-}
-
-- (void)flightHTTPClient:(SXFlightAwareClient*)client didFindFlights:(NSArray*)flightsArray
-{
-    NSLog(@"got these flights %@", flightsArray);
 }
 
 - (void)getData
@@ -141,18 +130,33 @@
         NSLog(@"whole dict %@", dict);
         NSLog(@"boarding time: %@", [dict objectForKey:@"boarding"]);
         NSString *boardingTime = [dict objectForKey:@"boarding"];
-        
+        NSString *departureTime = [dict objectForKey:@"departure"];
         NSLog(@"flight_number %@", [dict objectForKey:@"flight_number"]);
         NSLog(@"destination_code %@", [dict objectForKey:@"destination_code"]);
         NSLog(@"terminal %@", [dict objectForKey:@"terminal"]);
         NSLog(@"gate %@", [dict objectForKey:@"gate"]);
+        NSDate *departureDate = [self.dateFormatter dateFromString:departureTime];
         
-        NSDate *date = [self.dateFormatter dateFromString:boardingTime];
-        NSDate *testDate = [NSDate date];
-        NSLog(@"date %@", date);
+        [[SXFlightManager sharedManager] setDepartureDate:departureDate];
+        [[SXFlightManager sharedManager] setFlightNumber:[dict objectForKey:@"flight_number"]];
+        [[SXFlightManager sharedManager] setOriginCode:[dict objectForKey:@"origin_code"]];
+        [[SXFlightManager sharedManager] setDestinationCode:[dict objectForKey:@"destination_code"]];
+        [[SXFlightManager sharedManager] setTerminal:[dict objectForKey:@"terminal"]];
+        [[SXFlightManager sharedManager] setGate:[dict objectForKey:@"gate"]];
         
-        departureCounter = [date timeIntervalSinceDate:[NSDate date]];
+        self.boardsInLabel.text = [NSString stringWithFormat:@"%@ boards in",[[SXFlightManager sharedManager] flightNumber]];
+        
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:kdidUpdateFlightInfo object:nil];
+        
+//        NSDate *testDate = [NSDate date];
+        NSLog(@"departure date %@", departureDate);
+        
+        departureCounter = [departureDate timeIntervalSinceDate:[NSDate date]];
         NSLog(@"counter %d", departureCounter);
+        
+        
+        
 //        [self updateTimer];
         //        NSMutableArray *mutablePosts = [NSMutableArray arrayWithCapacity:[postsFromResponse count]];
         //        for (NSDictionary *attributes in postsFromResponse) {
@@ -178,8 +182,7 @@
 }
 
 - (void)updateTimer{ //Happens every time updateTimer is called. Should occur every second.
-    [self updateETATimer];
-//    departureCounter -= 1;
+//    [self updateETATimer];
     
     CGFloat hours = floor(departureCounter/3600.0f);
     CGFloat totalminutes = floor(departureCounter/60.0f);
@@ -242,7 +245,7 @@
 //        self.secondsA.text = @"10";
         startA = FALSE;
         departureTimer = [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(updateTimer) userInfo:nil repeats:YES];
-//        etaTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateETATimer) userInfo:nil repeats:YES];
+        etaTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(updateETATimer) userInfo:nil repeats:YES];
     }
 }
 
@@ -264,6 +267,16 @@
     UIDetailViewController *detailController = [[UIDetailViewController alloc] initWithNibName:@"UIDetailViewController" bundle:nil];
     detailController.view.frame = CGRectMake(0, 20, 320, 460);
     [UIView transitionFromView:self.view toView:detailController.view duration:1.0f options:UIViewAnimationOptionTransitionFlipFromRight completion:^(BOOL finished) {
+        
+    }];
+}
+
+- (IBAction)backButtonSelected:(id)sender
+{
+    SXStartingViewController *startingController = [[SXStartingViewController alloc] initWithNibName:@"SXStartingViewController" bundle:nil];
+    startingController.view.frame = CGRectMake(0, 20, 320, 460);
+    
+    [UIView transitionFromView:self.view toView:startingController.view duration:1.0f options:UIViewAnimationOptionTransitionFlipFromLeft completion:^(BOOL finished) {
         
     }];
 }

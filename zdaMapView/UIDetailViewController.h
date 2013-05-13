@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIDetailViewController : UIViewController
+@interface UIDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) IBOutlet UILabel *fromToLabel;
+@property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityView;
 - (IBAction)settingsButtonSelected:(id)sender;
 @end
