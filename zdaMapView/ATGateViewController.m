@@ -33,8 +33,10 @@ NSDateFormatter *dateFormatter;
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss ZZZ"];
+//    dateFormatter = [[NSDateFormatter alloc] init];
+//    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss ZZZ"];
+    dateFormatter = [[NSDateFormatter alloc]init];
+    [dateFormatter setDateFormat:[NSDateFormatter dateFormatFromTemplate:@"hh:mm a" options:0 locale:[NSLocale currentLocale]]];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didUpdateFlightInfo:) name:kdidUpdateFlightInfo object:nil];
 }
@@ -52,7 +54,7 @@ NSDateFormatter *dateFormatter;
         self.terminalLabel.text = [NSString stringWithFormat:@"Terminal %@",[[SXFlightManager sharedManager] terminal]];
         self.flightLabel.text = [[SXFlightManager sharedManager] flightNumber];
     }
-       NSLog(@"departure date: %@",[[SXFlightManager sharedManager] departureDate]);
+   NSLog(@"departure date: %@",[[SXFlightManager sharedManager] departureDate]);
     
     self.timeLabel.text = [dateFormatter stringFromDate:[[SXFlightManager sharedManager] departureDate]];
     
